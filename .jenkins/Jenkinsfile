@@ -26,10 +26,10 @@ pipeline {
     }
     stage('Scan for issues') {
       steps {
-        withEnv(["GH_PAT=${env.GH_PAT}"]) {   
+        withEnv(["GITHUB_PAT=${env.GH_PAT}"]) {   
           sh """
-          echo $GH_PAT >> kk.txt
-          export GH_PAT
+          #echo $GITHUB_PAT >> kk.txt
+          #export GH_PAT
           export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
           $WORKSPACE/scanner/xygeni scan \
             -n $PROJECT_NAME \
