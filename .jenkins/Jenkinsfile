@@ -13,8 +13,11 @@ pipeline {
         sh """
         date
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+        #curl -L https://get.xygeni.io/latest/scanner/install.sh | \
+        #/bin/bash -s -- -t $XYGENI_TOKEN -d $WORKSPACE/scanner
         curl -L https://get.xygeni.io/latest/scanner/install.sh | \
-        /bin/bash -s -- -t $XYGENI_TOKEN -d $WORKSPACE/scanner
+        /bin/bash -s -- -u ${env.XY_CRED_USR}  -p ${env.XY_CRED_PSW} -s ${env.XY_URL} -d $WORKSPACE/scanner 
+        
         ls -l
         date
         """
