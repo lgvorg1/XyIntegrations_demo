@@ -4,6 +4,7 @@ pipeline {
     XYGENI_TOKEN        = credentials('XYGENI_TOKEN')
     XY_URL              = credentials('XY_URL_demo')
     XY_CRED             = credentials('XY_CRED_demo')
+    GH_PAT              = credentiala('GH_PAT')
     PROJECT_NAME="Jenkins1"
     PROJECT_HOME="/var/lib/jenkins/workspace/XyTest1/JavaVulnerableLab"
   }
@@ -26,12 +27,14 @@ pipeline {
     }
     stage('Scan for issues') {
       steps {
-        sh """
-        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        $WORKSPACE/scanner/xygeni scan \
-          -n $PROJECT_NAME \
-          --dir $WORKSPACE -e **/scanner/**
-        """
+        withEnv(["GH_PAT=${env.GH_PAT}"]) {   
+          sh """
+          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+          $WORKSPACE/scanner/xygeni scan \
+            -n $PROJECT_NAME \
+            --dir $WORKSPACE -e **/scanner/**
+          """
+        }
       }
     }
   }
